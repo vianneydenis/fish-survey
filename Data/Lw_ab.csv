@@ -1,0 +1,129 @@
+Species,mean_a,mean_b,ref_sp
+Abudefduf bengalensis,0.04243,2.948666667,Abudefduf vaigiensis
+Abudefduf sexfasciatus,0.02309,3.130985,
+Abudefduf vaigiensis,0.04243,2.948666667,
+Acanthurus dussumieri,0.04898,2.83363,
+Acanthurus nigrofuscus,0.038228333,2.994228333,
+Acanthurus olivaceus,0.035333333,3.051,
+Acanthurus xanthopterus,0.0342825,2.8928725,
+Amphiprion clarkii,0.0441,2.99,
+Anampses caeruleopunctatus,0.01466,3,Anampses twistii
+Arothron cf_nigropunctatus,0.015945,3,
+Arothron nigropunctatus,0.015945,3,
+Aulostomus chinensis,0.00039,3.489143333,
+Balistoides conspicillum,0.02442,3.018,Balistoides viridescens
+Bodianus mesothorax,0.0144,3.053,Bodianus rufus
+Canthigaster rivulata,0.03667,2.943,Canthigaster valentini
+Cephalopholis boenak,0.02016,3.010878571,
+Chaetodon auriga,0.031533333,2.94081,
+Chaetodon auripes,0.06637,2.69302,Chaetodon speculum
+Chaetodon citrinellus,0.0381,2.81257,
+Chaetodon kleinii,0.04485,2.932,
+Chaetodon lunula,0.03114,2.874,Chaetodon ulietensis
+Chaetodon octofasciatus,0.0257,3.1,Chaetodon larvatus
+Chaetodon speculum,0.06637,2.69302,
+Chaetodon trifascialis,0.03629,2.86354,
+Chaetodon vagabundus,0.02776,2.97346,
+Cheilinus chlorourus,0.02993,2.9085375,
+Cheilinus trilobatus,0.0421825,2.8553675,
+Chlorurus sordidus,0.020591667,3.087051667,
+Chlorurus sp,0.020591667,3.087051667,Chlorurus sordidus
+Choerodon azurio,0.0167825,3.052725,Choerodon azurio
+Choerodon schoenleinii,0.0167825,3.052725,
+Chromis cinerascens,0.03906,3,Chromis weberi
+Chromis fumea,0.01647,3.294685,
+Chromis lepidolepis,0.195,1.9385,
+Chromis margaritifer,0.02365,3,Chromis atripes
+Chromis notata,0.0108,3.22,
+Chromis weberi,0.03906,3,
+Coris aygula,0.01289,3.162856667,
+Coris gaimard,0.014025,3,
+Dascyllus reticulatus,0.046155,2.939855,
+Dascyllus trimaculatus,0.070306667,2.809416667,
+Diodon holocanthus,0.1421,2.6874,
+Diodon hystrix,0.336666667,2.364333333,
+Ecsenius lineatus,0.02391,2.583,Ecsenius bicolor
+Ecsenius namiyei,0.02391,2.583,Ecsenius bicolor
+Epinephelus quoyanus,0.024533333,2.957666667,
+Fistularia commersonii,0.0061175,2.81685,
+Girella mezina,0.0227,2.983,Girella punctata
+Gomphosus varius,0.0122975,3.0201725,
+Halichoeres hortulanus,0.016303333,3.021333333,
+Halichoeres melanochir,0.01,3.08,Halichoeres solorensis
+Halichoeres nebulosus,0.01058,3,Halichoeres margaritaceus
+Hemigymnus fasciatus,0.023005,3,
+Hemigymnus melapterus,0.023656667,2.974206667,
+Heniochus diphreutes,0.0271,3.061,Heniochus acuminatus
+Heniochus singularius,0.039415,3,
+Hologymnosus annulatus,0.00977,3.06,
+Hologymnosus doliatus,0.00501,3.11,
+Hologymnosus sp,0.00977,3.085,
+Kyphosus cinerascens,0.02425,2.97,
+Labrichthys unilineatus,0.020355,3,
+Labridae sp,NA,NA,
+Labroides dimidiatus,0.00592,3.171643333,
+Leptoscarus vaigiensis,0.017396667,2.966506667,
+Macropharyngodon meleagris,0.01466,3,Anampses twistii
+Macropharyngodon negrosensis,0.01466,3,Anampses twistii
+Melichthys vidua,0.0058,3.554,
+Naso annulatus,0.05103,2.71537,
+Naso brevirostris,0.02815,3.03799,
+Naso lituratus,0.0351,2.9445,
+Neopomacentrus azysron,0.027765,2.905655,
+Neopomacentrus cyanomos,0.02077,3,
+Ostorhinchus properuptus,0.017,2.95,Ostorhinchus aureus
+Ostracion cubicus,0.03631,2.81,
+Ostracion immaculatus,0.03631,2.81,
+Oxycheilinus digramma,0.0245075,2.96175,
+Oxycheilinus unifasciatus,0.02102,3,
+Parapercis millepunctata,0.01329,2.89,Parapercis xanthozona
+Parupeneus ciliatus,0.011915,3.20396,
+Parupeneus multifasciatus,0.0356725,2.940705,
+Parupeneus spilurus,0.04336,2.794733333,
+Pempheris oualensis,0.017443333,3.024,
+Pempheris spp,0.017443333,3.024,Pempheris oualensis
+Pempheris vanicolensis,0.01175,3.0955,
+Pervagor melanocephalus,0.025,2.946,Pervagor janthinosoma
+Plagiotremus rhinorhynchos,0.00159,3.670545,
+Plectorhinchus vittatus,0.01255,3.079,Plectorhinchus lineatus
+Plectroglyphidodon dickii,0.0612,2.747,
+Plectropomus leopardus,0.0136,3.082348889,
+Pomacanthus semicirculatus,0.016825,3,
+Pomacentrus bankanensis,0.0373,2.89,Pomacentrus vaiuli
+Pomacentrus coelestis,0.037,2.63,
+Pomacentrus moluccensis,0.050375,2.829055,
+Pomacentrus sp,0.041558333,2.783018333,Average
+Pomacentrus taeniometopon,0.02344,2.99,
+Prionurus scalprum,0.01995,3.01,
+Pseudanthias squamipinnis,0.0569,2.65,
+Pseudolabrus eoethinus,0.0192,3.12,Pseudolabrus miles
+Pteragogus cryptus,0.0166,2.95,
+Pteragogus enneacanthus,0.0166,2.95,
+Ptereleotris evides,0.00389,3.12,
+Ptereleotris microlepis,0.00389,3.12,
+Pterocaesio digramma,0.00685,3.381106667,
+Scarus cf_festivus,0.0104,3.24,
+Scarus festivus,0.0104,3.24,
+Scarus forsteni,0.0142,3.13,
+Scarus frenatus,0.032,3.06,
+Scarus ghobban,0.0236,2.96536,
+Scarus hypselopterus,0.01122,3.1,
+Scarus rivulatus,0.0204625,3.1057625,
+Scarus rubroviolaceus,0.013233333,3.186333333,
+Scarus spp,0.0204625,3.1057625,Scarus rivulatus
+Scolopsis bilineata,0.015843333,3.18226,
+Scolopsis taenioptera,0.018463333,3.07039,
+Siganus spinus,0.031205,2.9911275,
+Stegastes altus,0.01479,2.99,
+Stegastes obreptus,0.0195,2.99,
+Stethojulis terina,0.01,3.06,
+Stethojulis trilineata,0.00716,3.257,
+Sufflamen chrysopterum,0.0153,3.152,
+Synodus sp,0.00262,3.431,Synodus variegatus
+Thalassoma amblycephalum,0.01339,3,
+Thalassoma jansenii,0.01906,3,
+Thalassoma lunare,0.02465,2.824435,
+Thalassoma lutescens,0.01265,3.05943,
+Thalassoma trilobatum,0.00977,3.05,
+Zanclus cornutus,0.01595,3.270455,
+Zebrasoma velifer,0.034075,2.860405,
