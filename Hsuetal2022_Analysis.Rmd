@@ -1,7 +1,7 @@
 ---
 title: "Hsu et al 2022_Rmd"
 author: "Tsai-Hsuan Tony Hsu"
-date: "7/01/2022"
+date: "8/05/2022"
 output: 
   html_document:
     toc_float: true
@@ -60,15 +60,15 @@ knitr::purl("Hsuetal2022_Analysis.Rmd", documentation = F)
 
 ```{r eval = TRUE, echo=T, message=F, warning=F}
 rm(list=ls())
-NE = read.csv("Data/Site.csv") # site information
-sp_D = read.csv("Data/DOV.csv") # diver-operated videos (DOV) data
-sp_U = read.csv("Data/UVC.csv") # underwater visual census (UVC) data
-sp_eDNA = read.xlsx("Data/eDNA.xlsx") # Environmental DNA (eDNA) data
-bc_mt = read.csv("Data/BV.csv", row.names = 1) # Benthic variables
-sp_lev = read.csv("Data/level.csv") # Species' vertical position in the water column 
-sp_lwab = read.csv("Data/Lw_ab.csv") # Biomass coefficients
-flow = read.csv("Data/flow.csv") # Water flow data
-gd = read.csv("Data/Pairwise geographic distance.csv", header = T, row.names = 1, check.names = F) ## Pairwise geographic distance (avoiding the land)
+NE = read.csv("Data/Hsuetal_dataset_Site.csv") # site information
+sp_D = read.csv("Data/Hsuetal_dataset_DOV.csv") # diver-operated videos (DOV) data
+sp_U = read.csv("Data/Hsuetal_dataset_UVC.csv") # underwater visual census (UVC) data
+sp_eDNA = read.xlsx("Data/Hsuetal_dataset_eDNA.xlsx") # Environmental DNA (eDNA) data
+bc_mt = read.csv("Data/Hsuetal_dataset_BV.csv", row.names = 1) # Benthic variables
+sp_lev = read.csv("Data/Hsuetal_dataset_level.csv") # Species' vertical position in the water column 
+sp_lwab = read.csv("Data/Hsuetal_dataset_Lw_ab.csv") # Biomass coefficients
+flow = read.csv("Data/Hsuetal_dataset_flow.csv") # Water flow data
+gd = read.csv("Data/Hsuetal_dataset_gd.csv", header = T, row.names = 1, check.names = F) ## Pairwise geographic distance (avoiding the land)
 ```
 
 # **Species name validation**
