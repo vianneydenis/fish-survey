@@ -1,27 +1,3 @@
----
-title: "Hsu et al 2022_Rmd"
-author: "Tsai-Hsuan Tony Hsu"
-date: "7/01/2022"
-output: 
-  html_document:
-    toc_float: true
-    toc: true
-    toc_depth: 3
-    number_sections: true
----
-
-Data and script to replicate analyses in Hsu et al. (XXX). If used in full or in part, please cite the original publication: 
-
-Hsu THT, Chen WJ, Denis V (submitted) Navigating the scales of diversity in subtropical and coastal fish assemblages ascertained by eDNA and visual surveys. doi:  []()
-
-Raw data also available on [Dryad](https://doi.org/10.5061/dryad.3xsj3txk4)
-
-A study from [FRElab](https://www.dipintothereef.com/)
-
-
-# **Packages**
-
-```{r eval = TRUE, echo=T, message=F, warning=F}
 library(openxlsx)
 library(dplyr)
 library(rfishbase)
@@ -48,17 +24,9 @@ library(rstatix)
 library(nlme)
 library(multcomp)
 library(PMCMRplus)
-```
 
-# **Generate R Script**
 
-```{r eval = TRUE,  message=F, warning=F, purl=F, results="hide"}
-knitr::purl("Hsuetal2022_Analysis.Rmd", documentation = F)
-```
 
-# **Dataset**
-
-```{r eval = TRUE, echo=T, message=F, warning=F}
 rm(list=ls())
 NE = read.csv("Data/Hsuetal_dataset_Site.csv") # site information
 sp_D = read.csv("Data/Hsuetal_dataset_DOV.csv") # diver-operated videos (DOV) data
@@ -69,30 +37,18 @@ sp_lev = read.csv("Data/Hsuetal_dataset_level.csv") # Species' vertical position
 sp_lwab = read.csv("Data/Hsuetal_dataset_Lw_ab.csv") # Biomass coefficients
 flow = read.csv("Data/Hsuetal_dataset_flow.csv") # Water flow data
 gd = read.csv("Data/Hsuetal_dataset_gd.csv", header = T, row.names = 1, check.names = F) ## Pairwise geographic distance (avoiding the land)
-```
 
-# **Species name validation**
-
-```{r eval = TRUE, echo=T, message=F, warning=F}
 sp_sv_D = validate_names(sp_D$Species)
 sp_sv_U = validate_names(sp_U$Species)
 sp_sv_e = validate_names(sp_eDNA[, 5])
-```
 
-# **Generate quantitative and qualitative matrix**
-
-## DOV abundance and richness
-```{r eval = TRUE, echo=T, message=F, warning=F}
 abun_D = as.data.frame(cast(sp_D[,-1], Site ~ Species,
                           value='Number', fun.aggregate = sum))
 rownames(abun_D) = NE$Code
 abun_D = abun_D[,-1]
 rich_D = abun_D
 rich_D[rich_D>0] = 1
-```
 
-## UVC abundance and richness
-```{r eval = TRUE, echo=T, message=F, warning=F}
 abun_D = abun_D[,-1]
 abun_U = as.data.frame(cast(sp_U[,-1], Site ~ Species,
                             value='Number', fun.aggregate = sum))
@@ -100,28 +56,19 @@ rownames(abun_U) = NE$Code
 abun_U = abun_U[,-1]
 rich_U = abun_U
 rich_U[rich_U>0] = 1
-```
 
-## eDNA abundance and richness
-```{r eval = TRUE, echo=T, message=F, warning=F}
 sp_eDNA = sp_eDNA[sp_eDNA$Ratio>0.0001,] # remove reads with coverage < 0.01%
 abun_e = as.data.frame(cast(sp_eDNA, Site ~ Valid_as, value='Ratio', fun.aggregate = sum))
 row.names(abun_e) = abun_e$Site
 abun_e = abun_e[,-1]
 rich_e = abun_e
 rich_e[rich_e>0] = 1
-```
 
-## Richness matrix across methods
-```{r eval = TRUE, echo=T, message=F, warning=F}
 rich_3 = full_join(full_join(rich_D, rich_U), rich_e)
 rich_3 = cbind(data.frame(Method = rep(c("DOV", "UVC", "eDNA"), each = 21),
                     Site = rep(NE$Code, 3)), rich_3)
 rich_3[is.na(rich_3)] = 0
-```
 
-## Biomass in DOV and UVC
-```{r eval = TRUE, echo=T, message=F, warning=F}
 sp_bio = rbind(sp_D, sp_U)
 # retrieve coefficient a
 sp_bio$a = NA
@@ -136,19 +83,11 @@ for (n in 1:nrow(sp_bio)) {
 # calculate biomass (g/m^2) based on total length-weight equation (g = a*TL^b)
 sp_bio$biomass = (sp_bio$a*(sp_bio$Length)^sp_bio$b)/250
 sp_bio = na.omit(sp_bio)
-```
 
-# **Gamma diversity**
-
-## Regional species pool
-```{r eval = TRUE, echo=T, message=F, warning=F}
 ncol(rich_D) # DOV: 83 spp
 ncol(rich_U) # UVC: 111 spp
 ncol(rich_e) # eDNA: 383 spp
-```
 
-## Species rarefaction and extrapolation curves
-```{r eval = TRUE, echo=T, message=F, warning=F, fig.align="center", fig.height=6, fig.width=8}
 m = c(1:42) # set the min and max sampling effort
 # generate species interpolation and extrapolation curves based on occurrence data
 out = iNEXT(list(DOV = t(rich_D), 
@@ -199,10 +138,7 @@ gg+ geom_point(data = dp, aes(x = X, y= Value, col = Method, shape = Type), size
   geom_text(data = dp, aes(x = X, y= Y, label = Text, col = Method), size = 5)+
   scale_shape_manual(values = 16:17)+
   scale_x_continuous(breaks = c(0, 21, 42))
-```
 
-## Venn diagram
-```{r echo=TRUE, fig.align="center", fig.height=3, fig.width=3, message=FALSE, warning=FALSE}
 # extract species list for each method
 venn_e = colnames(rich_e) # eDNA: 383 spp
 venn_D = colnames(rich_D) # DOC: 83 spp
@@ -234,10 +170,7 @@ venn_object = venn.diagram(list(venn_e, venn_U, venn_D), filename = NULL,
 # Figure 3. Number of species detected by each method
 grid.newpage()
 grid.draw(venn_object)
-```
 
-## Species's vertical position in the water column
-```{r eval = TRUE, echo=T, message=F, warning=F, fig.align="center", fig.height=6, fig.width=8}
 # include information in richness matrix
 lev_D = table(left_join(data.frame(Species = colnames(rich_D)), sp_lev, "Species")$level)
 lev_U = table(left_join(data.frame(Species = colnames(rich_U)), sp_lev, "Species")$level)
@@ -262,10 +195,7 @@ ggplot(df[-c(3,6),], aes(y = value, x = Method, fill = Level)) +
         legend.position = "bottom", legend.key=element_blank())+
   geom_text(aes(label = value), size = 4, position =  position_stack(vjust = 0.5))+
   scale_fill_manual(values = c("#fdae61", "#a6cee3", "#1f78b4"))
-```
 
-## Phylogenetic trees
-```{r eval = TRUE, echo=T, message=F, warning=F, fig.align="center", fig.height=5, fig.width=15}
 # retrieve phylogentic tree from Fish Tree of Life
 tre = fishtree_phylogeny(colnames(rich_3[-1:-2]), type = "phylogram") # only 335 species were available
 
@@ -311,10 +241,7 @@ gt_e = ggtree(tre_eDNA, branch.length='none', layout='circular',aes(color = eDNA
 # Figure S2. Phylogenetic trees.
 ggarrange(gt_D, gt_U, gt_e, ncol = 3, nrow = 1, common.legend = F,
           labels = c("(a)", "(b)", "(c)"))
-```
 
-## Phylogenetic diversity
-```{r eval = TRUE, echo=T, message=F, warning=F}
 # generate occurrence data (methods by species) 
 PD_sp = aggregate(.~Method, rich_3[,-2], FUN = sum)
 row.names(PD_sp) = PD_sp$Method
@@ -330,44 +257,27 @@ SPD = ses.pd(PD_sp, tre, include.root = F, null.model = "taxa.labels")
 SPD
 # only PD in eDNA requires size standardization (p>0.05)
 
-```
 
-## D-statistics
-```{r eval = TRUE, echo=T, message=F, warning=F}
 D_sp = as.data.frame(t(PD_sp))
 D_sp$Species = row.names(D_sp)
 Fish = comparative.data(tre, D_sp, Species) # combine phylogeny with occurence data
-```
-### DOV
-```{r eval = TRUE, echo=T, message=F, warning=F}
+
 
 DOVPhyloD = phylo.d(Fish, binvar = DOV, permut = 999)
 DOVPhyloD
-```
-### UVC
-```{r eval = TRUE, echo=T, message=F, warning=F}
+
 
 UVCPhyloD = phylo.d(Fish, binvar = UVC, permut = 999) 
 UVCPhyloD
-```
-### eDNA
-```{r eval = TRUE, echo=T, message=F, warning=F}
+
 
 eDNAPhyloD = phylo.d(Fish, binvar = eDNA, permut = 999) 
 eDNAPhyloD
 # Degree of disperse: eDNA > DOV > UVC
-```
 
-# **Beta diversity**
-
-## Multivariate patterns
-### nMDS
-```{r message=FALSE, warning=FALSE, include=FALSE}
 ## nMDS on occrrence data across methods
 nmds_3 = metaMDS(rich_3[, -1:-2], distance='jaccard',trymax=999)
 nmds_3$stress # stress value = 0.1482547
-```
-```{r eval = TRUE, echo=T, message=F, warning=F, fig.align="center", fig.height=6, fig.width=10}
 # extract data from nMDS for plotting
 data.scores_3 = as.data.frame(scores(nmds_3)$sites) # extract nMDS value of the 21 sites
 data.scores_3$Method = rich_3$Method
@@ -391,10 +301,7 @@ ggplot(data.scores_3, aes(x = NMDS1, y = NMDS2))+
   annotate(geom="text", x=0.75, y=0.85, label= paste("Stress =", round(nmds_3$stress,2)),
            size = 6, fontface = "bold")+
   scale_shape_discrete(labels = c("Northern coast", "Outlying islands"))
-```
 
-### Comparison among methods
-```{r eval = TRUE, echo=T, message=F, warning=F}
 # PERMANOVA
 PERM = adonis(rich_3[,-1:-2]~ rich_3$Method, strata = rich_3$Site, 
               permutations = 999, method="jaccard")
@@ -405,11 +312,7 @@ mod = betadisper(rich_3_j, rich_3$Method, type=c('centroid'))
 permutest (mod, pairwise=T) # p>0.05: no dispersion among methods
 # Centroid test
 pairwise.adonis(rich_3[, -1:-2], factors = rich_3$Method, sim.method = "jaccard") # eDNA-DOV, p<0.001; eDNA-UVC, p<0.001; DOV-UVC, p>0.05
-```
 
-### Comparison between areas
-#### DOV
-```{r eval = TRUE, echo=T, message=F, warning=F}
 # PERMANOVA
 PERM_D = adonis(rich_D~ NE$Area, permutations = 999, method="jaccard")
 PERM_D$aov.tab # DOV: significant difference between areas; p<0.001
@@ -419,9 +322,7 @@ mod = betadisper(rich_D_j, NE$Area, type=c('centroid'))
 permutest (mod, pairwise=T) # p>0.05: no dispersion between areas
 # Centroid test
 pairwise.adonis(rich_D, factors = NE$Area, sim.method = "jaccard") # p<0.001; significant difference in centroids between areas
-```
-#### UVC
-```{r eval = TRUE, echo=T, message=F, warning=F}
+
 # PERMANOVA
 PERM_U = adonis(rich_U~ NE$Area, permutations = 999, method="jaccard")
 PERM_U$aov.tab # UVC: significant difference between areas; p<0.001
@@ -431,9 +332,7 @@ mod = betadisper(rich_U_j, NE$Area, type=c('centroid'))
 permutest (mod, pairwise=T) # p>0.05: no dispersion between areas
 # Centroid test
 pairwise.adonis(rich_U, factors = NE$Area, sim.method = "jaccard") # p<0.001; significant difference in centroids between areas
-```
-#### eDNA
-```{r eval = TRUE, echo=T, message=F, warning=F}
+
 
 PERM_e = adonis(rich_e~ NE$Area, permutations = 999, method="jaccard")
 PERM_e$aov.tab # eDNA: significant difference between areas; p<0.01
@@ -441,33 +340,23 @@ rich_e_j = vegdist(rich_e, method="jaccard")
 mod = betadisper(rich_e_j, NE$Area, type=c('centroid'))
 permutest (mod, pairwise=T) #p<0.001: there is dispersion between areas
 pairwise.adonis(rich_e, factors = NE$Area, sim.method = "jaccard") # p<0.01; significant difference in centroids between areas
-```
 
-## Spatial patterns of beta diversity
-### DOV
-```{r eval = TRUE, echo=T, message=F, warning=F}
 beta_D = beta.multi(rich_D, index.family="jaccard") # DOV
 beta_D$beta.JAC # overall, 0.9433685
 beta_D$beta.JTU # turnover, 0.9212947
 beta_D$beta.JNE # nestedness, 0.02207375
-```
-### UVC
-```{r eval = TRUE, echo=T, message=F, warning=F}
+
 beta_U = beta.multi(rich_U, index.family="jaccard") # UVC
 beta_U$beta.JAC # overall, 0.944301
 beta_U$beta.JTU # turnover, 0.929008
 beta_U$beta.JNE # nestedness, 0.015293
-```
-### eDNA
-```{r eval = TRUE, echo=T, message=F, warning=F}
+
 
 beta_e = beta.multi(rich_e, index.family="jaccard") # eDNA
 beta_e$beta.JAC # overall, 0.9459638
 beta_e$beta.JTU # turnover, 0.9285283
 beta_e$beta.JNE # nestedness, 0.01743549
-```
-### Plotting
-```{r eval = TRUE, echo=T, message=F, warning=F, fig.align="center", fig.height=6, fig.width=8}
+
 
 # preparing plotting information
 beta_plot = data.frame(Component = rep(c("turnover", "nestedness"), 3), 
@@ -498,17 +387,11 @@ s = ggplot(beta_plot)+
   labs(x = "Method", y = "Beta diversity")
 # Figure S3. The spatial patterns of β-diversity among methods.
 s+guides(fill = "none")
-```
 
-## Pairwise beta diversity
-```{r eval = TRUE, echo=T, message=F, warning=F}
 beta_p_D = beta.pair(rich_D, index.family="jaccard") # DOV
 beta_p_U = beta.pair(rich_U, index.family="jaccard") # UVC
 beta_p_e = beta.pair(rich_e, index.family="jaccard") # eDNA
-```
 
-## Mantel tests
-```{r eval = TRUE, echo=T, message=F, warning=F}
 # pairwise beta diversity ~ pairwise geographic distance
 mod = list(mantel(gd,as.matrix(beta_p_D[[3]])),
            mantel(gd,as.matrix(beta_p_D[[1]])),
@@ -519,10 +402,7 @@ mod = list(mantel(gd,as.matrix(beta_p_D[[3]])),
            mantel(gd,as.matrix(beta_p_e[[3]])),
            mantel(gd,as.matrix(beta_p_e[[1]])),
            mantel(gd,as.matrix(beta_p_e[[2]])))
-```
 
-### Plotting
-```{r eval = TRUE, echo=T, message=F, warning=F, fig.align="center", fig.height=12, fig.width=15}
 # generate empty lists
 bd_D = vector(mode = "list", length = 3)
 bd_U = vector(mode = "list", length = 3)
@@ -571,11 +451,7 @@ for (n in 1:9) {
 ggarrange(gg[[1]], gg[[2]], gg[[3]], gg[[4]], gg[[5]],
           gg[[6]], gg[[7]], gg[[8]], gg[[9]],
           nrow = 3, ncol = 3, common.legend = F)
-```
 
-# **Alpha diversity**
-## Species richness per site
-```{r eval = TRUE, echo=T, message=F, warning=F}
 df = data.frame(Richness = rowSums(rich_3[,-1:-2]), Method = as.factor(rich_3$Method), Site = rep(NE$Code, 3))
 # mean and sd
 df %>% group_by(Method) %>% summarise(Mean = round(mean(Richness),2), SD = round(sd(Richness),2))
@@ -583,12 +459,7 @@ df %>% group_by(Method) %>% summarise(Mean = round(mean(Richness),2), SD = round
 mod = lme(Richness ~ Method, random = ~1|Site/Method, data=df)
 anova(mod) # p<0.001
 summary(glht(mod,linfct = mcp(Method = "Tukey"))) # p<0.001: eDNA-DOV, eDNA-UVC
-```
 
-## dbRDA
-
-### Data preparation
-```{r eval = TRUE, echo=T, message=F, warning=F}
 # normalize benthic composition in each site as constrained variables
 benthos_mt = bc_mt[,-11] %>% mutate_all(scale) %>% as.data.frame()
 # calculate the variance inflation factors for each variable
@@ -598,10 +469,7 @@ diag(solve(cor(benthos_mt[,-9]))) # no multicollinearity
 benthos_mt = benthos_mt[,-9]
 # aggregate biomass data for each site and method
 bioV = cast(Method+Site~Species, data = sp_bio, value='biomass', fun.aggregate = sum)
-```
 
-### DOV
-```{r eval = TRUE, echo=T, message=F, warning=F}
 # occurrence
 rich_D.jac = as.matrix(vegdist(rich_D, method = "jaccard"))
 dbRDA.mat_DJ = capscale(rich_D.jac ~ ., benthos_mt, comm = rich_D)
@@ -611,10 +479,7 @@ dbRDA.mat_DB = capscale(abun_D.b ~ ., benthos_mt, comm = abun_D)
 # biomass
 bio_D.b = as.matrix(vegdist(bioV[1:21,-1:-2], method = "bray"))
 dbRDA.mat_Db = capscale(bio_D.b ~ ., benthos_mt, comm = bioV[1:21,-1:-2])
-```
 
-### UVC
-```{r eval = TRUE, echo=T, message=F, warning=F}
 # occurrence
 rich_U.jac = as.matrix(vegdist(rich_U, method = "jaccard"))
 dbRDA.mat_UJ = capscale(rich_U.jac ~ ., benthos_mt, comm = rich_U)
@@ -624,17 +489,11 @@ dbRDA.mat_UB = capscale(abun_U.b ~ ., benthos_mt, comm = abun_U)
 # biomass
 bio_U.b = as.matrix(vegdist(bioV[22:42,-1:-2], method = "bray"))
 dbRDA.mat_Ub = capscale(bio_U.b ~ ., benthos_mt, comm = bioV[22:42,-1:-2])
-```
 
-### eDNA
-```{r eval = TRUE, echo=T, message=F, warning=F}
 # occurence
 rich_e.jac = as.matrix(vegdist(rich_e, method = "jaccard"))
 dbRDA.mat_eJ = capscale(rich_e.jac ~ ., benthos_mt, comm = rich_e)
-```
 
-### Calculate the 95% CI for the total constrained variations
-```{r eval = TRUE, echo=T, message=F, warning=F}
 vec_D = rep(0, 1000)
 vec_U = rep(0, 1000)
 vec_e = rep(0, 1000)
@@ -664,10 +523,7 @@ vec_e = sort(vec_e)
 vec_D[c(25, 975)]
 vec_U[c(25, 975)]
 vec_e[c(25, 975)]
-```
 
-### Plotting
-```{r eval = TRUE, echo=T, message=F, warning=F, fig.align="center", fig.height=15, fig.width=15}
 tab = data.frame(RDA1_2 = vector(length = 7), 
                 constrained = vector(length = 7),
                 row.names = c("DOV_occur", "DOV_abun", "DOV_bio",
@@ -713,11 +569,7 @@ ggarrange(rda.plot[[1]], rda.plot[[2]], rda.plot[[3]], rda.plot[[4]],
           rda.plot[[5]], rda.plot[[6]], rda.plot[[7]],
           nrow = 3, ncol = 3, legend = "bottom",
           labels = c("(a)", "(b)", "(c)", "(d)", "(e)", "(f)", "(g)"))
-```
 
-# **Supplementary Information**
-## Overall species pool
-```{r eval = TRUE, echo=T, message=F, warning=F}
 # Extract genus from species name
 spp = list(colnames(rich_D), colnames(rich_U), colnames(rich_e))
 genus = vector(mode = "list", length = 3)
@@ -735,46 +587,29 @@ R3 = FB %>% filter(Genus %in% row.names(table(unlist(genus))))
 RD = FB %>% filter(Genus %in% genus[[1]])
 RU = FB %>% filter(Genus %in% genus[[2]])
 Re = FB %>% filter(Genus %in% genus[[3]])
-```
-### All
-```{r eval = TRUE, echo=T, message=F, warning=F}
+
 length(table(R3$Order)) # 36 orders
 length(table(R3$Family)) # 106 families
 length(table(R3$Genus)) # 241 genera
 ncol(rich_3[-1:-2]) # 438 species
-```
 
-### DOV
-```{r eval = TRUE, echo=T, message=F, warning=F}
 length(table(RD$Order)) # 10 orders
 length(table(RD$Family)) # 18 families
 length(table(RD$Genus)) # 46 genera
 ncol(rich_D) # 83 species
-```
 
-### UVC
-```{r eval = TRUE, echo=T, message=F, warning=F}
 length(table(RU$Order)) # 14 orders
 length(table(RU$Family)) # 27 families
 length(table(RU$Genus)) # 60 genera
 ncol(rich_U) # 111 species
-```
 
-### eDNA
-```{r eval = TRUE, echo=T, message=F, warning=F}
 length(table(Re$Order)) # 36 orders
 length(table(Re$Family)) # 106 families
 length(table(Re$Genus)) # 233 genera
 ncol(rich_e) # 383 species
-```
 
-## Species detected in visual surveys but not in eDNA (Table S2)
-```{r eval = TRUE, echo=T, message=F, warning=F}
 setdiff(union(colnames(rich_D), colnames(rich_U)), colnames(rich_e))
-```
 
-## Benthic variables between areas (Table S3)
-```{r eval = TRUE, echo=T, message=F, warning=F}
 bv = bc_mt[,-11]
 avg = aggregate(x = bv/rowSums(bv)*100, by = list(NE$Area), FUN = function(x){round(mean(x),2)})
 tb_avg = as.data.frame(t(avg[,-1]))
@@ -795,11 +630,7 @@ for (n in 1:10) {
   tb$`p-value`[n] = round(mod$p.value, 3)
   }
 tb
-```
 
-## Richness per site for each method
-### Fish taxa in each site and method (Table S4)
-```{r eval = TRUE, echo=T, message=F, warning=F}
 df_richness = as.data.frame(matrix(nrow = 21, ncol = 9),
                             row.names = NE$Code)
 colnames(df_richness) = str_c(rep(c("DOV", "UVC", "eDNA"), each = 3),
@@ -823,9 +654,7 @@ for (n in 1:3) {
 }
 # exporting Table
 df_richness
-```
-### Comparison across method
-```{r eval = TRUE, echo=T, message=F, warning=F}
+
 df = data.frame(Species = as.numeric(unlist(df_richness[,c(1,4,7)])),
                 Genus = as.numeric(unlist(df_richness[,c(2,5,8)])),
                 Family = as.numeric(unlist(df_richness[,c(3,6,9)])),
@@ -841,16 +670,11 @@ frdAllPairsConoverTest(y = df$Genus, groups = df$Method, blocks = df$Site)
 # Family
 friedman.test(y = df$Family, groups = df$Method, blocks = df$Site)
 frdAllPairsConoverTest(y = df$Family, groups = df$Method, blocks = df$Site)
-```
 
-### Species richness ~ flow speed (Figure S4)
-```{r eval = TRUE, echo=T, message=F, warning=F}
 rdf = as.data.frame(matrix(c(rowSums(rich_D), rowSums(rich_U), rowSums(rich_e)),
              nrow = 3, ncol = 21, byrow = T)) # species richness of all methods
 row.names(rdf) = c("DOV", "UVC", "eDNA")
-```
 
-```{r eval = TRUE, echo=T, message=F, warning=F, fig.align="center", fig.height=5, fig.width=15}
 # plotting
 col3 = c("#F8766D", "#619CFF", "#00BA38") # colors for DOV, UVC, and eDNA
 gg = vector(mode = "list", length = 3)
@@ -879,10 +703,7 @@ ag = ggarrange(gg[[1]], gg[[2]], gg[[3]], nrow = 1, ncol = 3,
               labels = c("(a)", "(b)", "(c)"))
 annotate_figure(ag, left = text_grob("Species richness", face = "bold", size = 18, rot = 90),
                 bottom = text_grob("Flow speed (m/s)", face = "bold", size = 18))
-```
 
-## Individual rarefaction curves of DOV and UVC (Figure S5)
-```{r eval = TRUE, echo=T, message=F, warning=F, fig.align="center", fig.height=15, fig.width=10}
 abun = as.data.frame(cast(rbind(sp_D, sp_U), Method + Site ~ Species,
                           value='Number', fun.aggregate = sum))
 gg = vector(mode = "list", length = 21)
@@ -911,5 +732,3 @@ annotate_figure(ggr, bottom = text_grob("Fish individuals",
                                         color = "black", face = "bold", size = 16),
                 left = text_grob("Species richness", 
                                  color = "black", face = "bold", size = 16, rot = 90))
-```
-
