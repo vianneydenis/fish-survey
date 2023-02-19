@@ -1,3 +1,6 @@
+<p align="center"><img align="center" width="280" src="./.github/logo.png"/></p>
+
+
 # Data from: Navigating the scales of diversity in subtropical and coastal fish assemblages ascertained by eDNA and visual surveys
 
 ---
