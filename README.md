@@ -10,8 +10,7 @@
 
 ---
 
-This Hsuetal_2022_dataset_README.txt file was generated on 2022-08-05 by Tsai-Hsuan Tony Hsu (tonytsaihsuanhsu@gmail.com).
-
+This Hsuetal_2022_dataset_README.txt file was generated on 2022-08-05 by Tsai-Hsuan Tony Hsu (tonytsaihsuanhsu@gmail.com). Knit [Hsuetal2022_Analysis.Rmd](Hsuetal2022_Analysis.Rmd) to generate html and extract R code.
 
 
 1. **Author Information**
