@@ -1,5 +1,10 @@
-<p align="center"><img align="center" width="280" src="./.github/logo.png"/></p>
-
+<p align="center">
+  <img alt="logo" src="./.github/logo.png" width="25%">
+&nbsp; &nbsp; &nbsp; &nbsp;
+  <img alt="fish" src="./.github/fish.png" width="25%">
+&nbsp; &nbsp; &nbsp; &nbsp;
+  <img alt="fish" src="./.github/dna.png" width="25%">
+</p>
 
 # Data from: Navigating the scales of diversity in subtropical and coastal fish assemblages ascertained by eDNA and visual surveys
 
